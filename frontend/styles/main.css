@@ -4,7 +4,7 @@
 /* Definition of base styles. */
 :root {
     /* colors */
-    --color-white: #ffffff;
+    --color-white: #F5F5F5;
     --color-black: #000000;
     --color-accent: #ff0000;
     /* gaps & sizes */
@@ -20,7 +20,25 @@
     position: sticky;
     top: 0;
     z-index: 100;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .nav-container {
+        .nav {
+            list-style: none;
+            display: flex;
+            flex-direction: row; justify-content: flex-end;
+            align-self: center;
+            gap: 20px;
+            a {
+                text-decoration: none;
+                color: var(--color-white);
+            }
+        }
+    }
 }
+
 [data-layout="footer"] {
     padding: var(--gap-around);
     background-color: var(--color-accent);
