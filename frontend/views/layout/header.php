@@ -1,6 +1,5 @@
 <?php
-$menu = get_menu_by_slug(slug: 'main');
-js_log($menu);
+    $menu = get_menu_by_slug(slug: 'main');
 ?>
 
 <header data-layout="header">
