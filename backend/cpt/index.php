@@ -8,6 +8,7 @@
  * Dokumentation: https://developer.wordpress.org/reference/functions/register_post_type/
  */
 
+
 add_action('init', function () {
-    // require_once __DIR__ . '/_posttype.php';
+    require_once __DIR__ . '/_project.php';
 }, 0);
