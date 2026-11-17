@@ -1,16 +1,57 @@
 <?php
+// -> Namen aller Terms einer Taxonomie
+function get_term_names (int $id, string $taxonomy): array {
+    $names = wp_get_post_terms($id, $taxonomy, ['fields' => 'names']);
+    return is_wp_error($names) ? [] : $names;
+}
+
+// -> Media-Element der Projektseite (je nach gewählter Media-Art)
+function get_project_media (int $id): ?array {
+    $type = carbon_get_post_meta($id, 'media_type');
+    $thumbnail_id = (int) carbon_get_post_meta($id, 'thumbnail');
+    $poster = $thumbnail_id ? (string) wp_get_attachment_image_url($thumbnail_id, 'l') : '';
+
+    switch ($type) {
+        case 'link':
+            $url = carbon_get_post_meta($id, 'media_link');
+            $html = $url ? wp_oembed_get($url) : false;
+            return $html ? ['type' => 'link', 'html' => $html] : null;
+
+        case 'video':
+            $file = (int) carbon_get_post_meta($id, 'media_video');
+            $src = $file ? wp_get_attachment_url($file) : '';
+            return $src ? ['type' => 'video', 'src' => $src, 'poster' => $poster] : null;
+
+        case 'audio':
+            $file = (int) carbon_get_post_meta($id, 'media_audio');
+            $src = $file ? wp_get_attachment_url($file) : '';
+            return $src ? ['type' => 'audio', 'src' => $src, 'poster' => $poster] : null;
+
+        case 'image':
+            $file = (int) carbon_get_post_meta($id, 'media_image');
+            return $file ? ['type' => 'image', 'image' => get_media_by_id($file, 'l')] : null;
+    }
+    return null;
+}
+
 function get_project_by_id (int $id): array {
+    $date = (string) carbon_get_post_meta($id, 'date');
+    $gallery = carbon_get_post_meta($id, 'images');
+
     return [
         'title' => get_the_title($id),
         'subtitle' => carbon_get_post_meta($id, 'subtitle'),
-        'project-id' => carbon_get_post_meta($id, 'project-id'),
-        'date' => carbon_get_post_meta($id, 'date'),
-        'thumbnail' => carbon_get_post_meta($id, 'thumbnail'),
-        'project-upload' => carbon_get_post_meta($id, 'project-upload'),
+        'media' => get_project_media($id),
+        'project_categories' => get_term_names($id, 'project_category'),
+        'genre_categories' => get_term_names($id, 'genre_category'),
         'duration' => carbon_get_post_meta($id, 'duration'),
+        'year' => $date !== '' ? substr($date, 0, 4) : '',
         'lead' => carbon_get_post_meta($id, 'lead'),
         'credits' => carbon_get_post_meta($id, 'credits'),
-        'images' => carbon_get_post_meta($id, 'images'),
+        'images' => array_map(
+            fn ($image_id) => get_media_by_id($image_id, 'm'),
+            is_array($gallery) ? $gallery : []
+        ),
     ];
 }
 

@@ -1,5 +1,6 @@
 @import "_resets.css";
 @import "_about.css";
+@import "_project.css";
 
 /* Definition of base styles. */
 :root {
@@ -76,6 +77,7 @@
     overflow: clip;
     position: relative;
     width: 100%;
+    scroll-margin-top: 100px;
 }
 
 [data-module="all_projects"],

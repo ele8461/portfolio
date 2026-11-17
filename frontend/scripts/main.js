@@ -21,3 +21,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// -> Merken, von welchem Modul aus ein Projekt geöffnet wurde (Work / Selected Work)
+document.addEventListener('click', (event) => {
+    const teaser = event.target.closest('[data-teaser="project"]');
+    const module = teaser?.closest('[data-module]');
+    if (!module?.id) return;
+    try {
+        sessionStorage.setItem('project-origin', location.pathname + location.search + '#' + module.id);
+    } catch (e) {}
+});
+
+// -> Zurück-Pfeil auf der Projektseite auf die gemerkte Stelle setzen
+document.addEventListener('DOMContentLoaded', () => {
+    const back = document.querySelector('[data-back]');
+    if (!back) return;
+    try {
+        const origin = sessionStorage.getItem('project-origin');
+        if (origin) back.href = origin;
+    } catch (e) {}
+});
