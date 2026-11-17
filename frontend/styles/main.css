@@ -1,5 +1,6 @@
 @import "_fonts.css";
 @import "_resets.css";
+@import "_about.css";
 
 /* Definition of base styles. */
 :root {
@@ -168,8 +169,8 @@
 @media (max-width: 400px) {}
 
 @media (max-width: 768px) {
-    [data-module="all_projects"]
-    [data-module="selected_projects"]  {
+    [data-module="all_projects"],
+    [data-module="selected_projects"] {
         grid-template-columns: 1fr;
         & > .intro { position: static; }
         & > .grid { column-count: 1; }

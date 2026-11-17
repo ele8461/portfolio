@@ -28,6 +28,7 @@ Container::make('post_meta', 'Module')
             ])
             // -> About
             ->add_fields('about', 'About', [
+                Field::make('text', 'title', 'Titel')->set_required(),
                 Field::make('image', 'image1', 'Bild 1')->set_required(),
                 Field::make('date', 'date1', 'Datum Bild 1')->set_required(),
                 Field::make('image', 'image2', 'Bild 2')->set_required(),

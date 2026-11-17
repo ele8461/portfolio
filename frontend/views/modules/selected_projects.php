@@ -2,7 +2,7 @@
 $data = $args['data'];
 ?>
 
-<section data-module="all_projects">
+<section data-module="selected_projects">
     <div class="intro">
         <h1 class="title"><?= esc_html($data['title']) ?></h1>
     </div>
