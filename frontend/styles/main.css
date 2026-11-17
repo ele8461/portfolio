@@ -78,7 +78,8 @@
     width: 100%;
 }
 
-[data-module="all_projects"] {
+[data-module="all_projects"],
+[data-module="selected_projects"] {
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: var(--gap-around);
@@ -167,7 +168,8 @@
 @media (max-width: 400px) {}
 
 @media (max-width: 768px) {
-    [data-module="all_projects"] {
+    [data-module="all_projects"]
+    [data-module="selected_projects"]  {
         grid-template-columns: 1fr;
         & > .intro { position: static; }
         & > .grid { column-count: 1; }

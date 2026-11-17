@@ -33,17 +33,28 @@ function get_project_teaser (int $id): array {
     ];
 }
 
-// -> Alle Projekte, sortiert nach Projekt-Nummer
-function get_projects (): array {
-    $query = new WP_Query([
+// -> Alle Projekte, sortiert nach Projekt-Nummer.
+//    Optional: nur bestimmte IDs, in der im Backend gewählten Reihenfolge.
+function get_projects (array $ids = []): array {
+    $args = [
         'post_type' => 'project',
         'post_status' => 'publish',
         'posts_per_page' => -1,
         'fields' => 'ids',
-        'meta_key' => '_project-id', // Carbon Fields speichert mit Unterstrich-Präfix
-        'orderby' => 'meta_value_num',
-        'order' => 'ASC',
-    ]);
+    ];
+
+    if (!empty($ids)) {
+        // -> Ausgewählte Projekte: Reihenfolge der Auswahl beibehalten
+        $args['post__in'] = $ids;
+        $args['orderby'] = 'post__in';
+    } else {
+        // -> Alle Projekte: nach Projekt-Nummer
+        $args['meta_key'] = '_project-id'; // Carbon Fields speichert mit Unterstrich-Präfix
+        $args['orderby'] = 'meta_value_num';
+        $args['order'] = 'ASC';
+    }
+
+    $query = new WP_Query($args);
     return array_map('get_project_teaser', $query->posts);
 }
 
