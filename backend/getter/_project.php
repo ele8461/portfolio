@@ -21,13 +21,15 @@ function get_project_teaser (int $id): array {
     $number = (int) carbon_get_post_meta($id, 'project-id');
     $types = wp_get_post_terms($id, 'project_category', ['fields' => 'names']);
     $categories = wp_get_post_terms($id, 'main_category', ['fields' => 'slugs']);
+    $statuses = wp_get_post_terms($id, 'status_category', ['fields' => 'names']); // NEU
 
     return [
         'url' => get_permalink($id),
         'title' => get_the_title($id),
         'number' => str_pad((string) $number, 2, '0', STR_PAD_LEFT),
-        'date' => str_replace('-', '/', $date), // 2025-01-21 -> 2025/01/21
+        'date' => str_replace('-', '/', $date),
         'type' => !is_wp_error($types) && !empty($types) ? $types[0] : '',
+        'status' => !is_wp_error($statuses) && !empty($statuses) ? $statuses[0] : '', // NEU
         'main_categories' => is_wp_error($categories) ? [] : $categories,
         'thumbnail' => $thumbnail_id ? get_media_by_id($thumbnail_id, 'large') : null,
     ];

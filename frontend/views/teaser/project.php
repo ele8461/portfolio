@@ -11,4 +11,7 @@ $project = $args['data'];
     <span class="label label-title"><span class="number"><?= esc_html($project['number']) ?></span><?= esc_html($project['title']) ?></span>
     <span class="label label-type"><?= esc_html($project['type']) ?></span>
     <span class="label label-date"><?= esc_html($project['date']) ?></span>
+    <?php if (!empty($project['status'])) : ?>
+        <span class="label label-status"><?= esc_html($project['status']) ?></span>
+    <?php endif; ?>
 </a>

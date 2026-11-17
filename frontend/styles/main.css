@@ -143,6 +143,8 @@
     & > .label-title { top: 5px; left: 8px; }
     & > .label-type  { top: 5px; right: 8px; }
     & > .label-date  { bottom: 5px; right: 8px; }
+    & > .label-title  { top: 5px; left: 8px; }
+    & > .label-status { bottom: 5px; left: 8px; }
 }
 
 /* Styling of utility classes, can be added anywhere in the project. */

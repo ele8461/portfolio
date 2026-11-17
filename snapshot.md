@@ -47,6 +47,7 @@ Container::make('post_meta', 'Module')
             ])
             // -> About
             ->add_fields('about', 'About', [
+                Field::make('text', 'title', 'Titel')->set_required(),
                 Field::make('image', 'image1', 'Bild 1')->set_required(),
                 Field::make('date', 'date1', 'Datum Bild 1')->set_required(),
                 Field::make('image', 'image2', 'Bild 2')->set_required(),
@@ -721,7 +722,88 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ## ./frontend/styles/_about.css
 ```
-```
+[data-module="about"] {
+    --font-about-bio: normal 20px/1.35 var(--font-main);
+    --font-about-small: normal 17px/1.3 var(--font-main);
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--gap-around);
+    padding: var(--gap-around);
+
+    & > .intro {
+        align-self: start;
+        position: sticky;
+        top: 40vh;
+        .title {
+            font: var(--font-h1);
+        }
+    }
+
+    & > .content {
+        display: flex;
+        flex-direction: column;
+        gap: 60px;
+    }
+
+    /* Zwei überlappende Bilder: beide in derselben Grid-Zelle */
+    .images {
+        display: grid;
+    }
+    .image-item {
+        grid-area: 1 / 1;
+        position: relative;
+        width: 55%;
+        border: 1px solid var(--color-white);
+
+        &:first-child {
+            justify-self: start;
+            margin-top: 6.5%; /* Bild 1 sitzt etwas tiefer */
+        }
+        &:last-child {
+            justify-self: end;
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+        }
+        .date {
+            position: absolute;
+            right: 10px;
+            bottom: 5px;
+            font: var(--font-filter);
+        }
+    }
+
+    .bio {
+        font: var(--font-about-bio);
+    }
+
+    .contact {
+        font: var(--font-about-small);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        .socials {
+            display: flex;
+            flex-direction: column;
+            a {
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    [data-module="about"] {
+        grid-template-columns: 1fr;
+        & > .intro { position: static; }
+        .image-item { width: 75%; }
+    }
+}```
 
 ## ./frontend/styles/_resets.css
 ```
@@ -746,6 +828,7 @@ img {
 ```
 @import "_fonts.css";
 @import "_resets.css";
+@import "_about.css";
 
 /* Definition of base styles. */
 :root {
@@ -914,8 +997,8 @@ img {
 @media (max-width: 400px) {}
 
 @media (max-width: 768px) {
-    [data-module="all_projects"]
-    [data-module="selected_projects"]  {
+    [data-module="all_projects"],
+    [data-module="selected_projects"] {
         grid-template-columns: 1fr;
         & > .intro { position: static; }
         & > .grid { column-count: 1; }
@@ -973,7 +1056,53 @@ img {
 
 ## ./frontend/views/modules/about.php
 ```
-```
+<?php
+$data = $args['data'];
+
+$images = [
+    ['image' => $data['image1'] ?? null, 'date' => $data['date1'] ?? ''],
+    ['image' => $data['image2'] ?? null, 'date' => $data['date2'] ?? ''],
+];
+$socials = get_globals_socials();
+?>
+
+<section data-module="about" id="about">
+    <div class="intro">
+        <h1 class="title"><?= esc_html($data['title'] ?? 'about.') ?></h1>
+    </div>
+
+    <div class="content">
+        <div class="images">
+            <?php foreach ($images as $item) : ?>
+                <?php if (!empty($item['image']['src'])) : ?>
+                    <figure class="image-item">
+                        <img src="<?= esc_url($item['image']['src']) ?>"
+                             alt="<?= esc_attr($item['image']['alt']) ?>"
+                             loading="lazy">
+                        <figcaption class="date">
+                            <?= esc_html(str_replace('-', '/', (string) $item['date'])) ?>
+                        </figcaption>
+                    </figure>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="bio">
+            <?= apply_filters('the_content', $data['bio'] ?? '') ?>
+        </div>
+
+        <div class="contact">
+            <?= apply_filters('the_content', $data['contact'] ?? '') ?>
+            <?php if (!empty($socials)) : ?>
+                <div class="socials">
+                    <?php foreach ($socials as $item) : ?>
+                        <a target="_blank" href="<?= esc_url($item['link']) ?>"><?= esc_html($item['title']) ?></a>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>```
 
 ## ./frontend/views/modules/all_projects.php
 ```
@@ -1009,7 +1138,7 @@ $data = $args['data'];
 $data = $args['data'];
 ?>
 
-<section data-module="all_projects">
+<section data-module="selected_projects">
     <div class="intro">
         <h1 class="title"><?= esc_html($data['title']) ?></h1>
     </div>
@@ -1128,14 +1257,4 @@ require_once __DIR__ . '/backend/getter/index.php';```
 <?php get_template_part('frontend/views/pages/project') ?>
 <?php get_template_part('frontend/views/layout/footer') ?>
 <?php get_footer() ?>```
-
-## ./style.css
-```
-/**
- * Theme Name: Portfolio Starter Theme
- * Description: Dieses Starter-Theme wurde für den Einsatz im IM5-Modul im HS26 entwickelt.
- * Version: 1.0.0
- * Author: Lea Moser | lea.moser@fhgr.ch | FHGR
- */
-```
 
