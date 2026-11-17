@@ -7,19 +7,26 @@ Container::make('post_meta', 'Module')
     ->where('post_type', '=', 'page')
     ->add_fields([
         Field::make('complex', 'modules', 'Module')
-            // -> example
-            ->add_fields('example', 'Beispiel', [
+             // -> Selected Work
+            ->add_fields('selected_projects', 'Selected Work', [
                 Field::make('text', 'title', 'Titel')->set_required(),
-                Field::make('image', 'image', 'Bild')->set_required(),
             ])
             // -> Work (alle Projekte, automatisch)
             ->add_fields('all_projects', 'Work', [
                 Field::make('text', 'title', 'Titel')->set_required(),
             ])
-            // todo: add new modules here
-            // -> SETTINGS
             ->set_layout('tabbed-vertical')
-    ]);
+            // -> About
+            ->add_fields('about', 'About', [
+                Field::make('text', 'title', 'Titel')->set_required(),
+                Field::make('image', 'image1', 'Bild 1')->set_required(),
+                Field::make('date', 'date1', 'Datum Bild 1')->set_required(),
+                Field::make('image', 'image2', 'Bild 2')->set_required(),
+                Field::make('date', 'date2', 'Datum Bild 2')->set_required(),
+                Field::make('text', 'bio', 'Beschreibung')->set_required(),
+                Field::make('text', 'contact', 'Kontakt')->set_required(),
+        ])
+]);
 
 // -> Funktion, um die Module und die entsprechenden Templates auf der Seite zu laden
 function render_modules (): void {
