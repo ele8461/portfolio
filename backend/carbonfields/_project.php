@@ -5,6 +5,7 @@ use Carbon_Fields\Field;
 Container::make('post_meta', 'Projekt')
     ->where('post_type', '=', 'project')
     ->add_fields([
+        Field::make('text', 'subtitle', 'Untertitel'),
         Field::make('text', 'project-id', 'Projekt-Nummer')
             ->set_attribute('type', 'number')
             ->set_required(true),

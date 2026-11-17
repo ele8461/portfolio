@@ -1,11 +1,10 @@
-<mark>Hier kommt der Inhalt vom Post Type Projekt</mark>
 <?php
 $project = get_project_by_id(get_the_ID());
 ?>
 
 <article>
     <h1><?= esc_html($project['title']) ?></h1>
-    <p><?= esc_html($project['project-id']) ?></p>
+    <p><?= esc_html($project['subtitle']) ?></p>
     <p><?= esc_html($project['date']) ?></p>
 
     <?php if ($project['thumbnail']): ?>

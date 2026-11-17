@@ -2,6 +2,7 @@
 function get_project_by_id (int $id): array {
     return [
         'title' => get_the_title($id),
+        'subtitle' => carbon_get_post_meta($id, 'subtitle'),
         'project-id' => carbon_get_post_meta($id, 'project-id'),
         'date' => carbon_get_post_meta($id, 'date'),
         'thumbnail' => carbon_get_post_meta($id, 'thumbnail'),
