@@ -6,17 +6,25 @@
     /* colors */
     --color-white: #F5F5F5;
     --color-black: #000000;
-    --color-accent: #ff0000;
     /* gaps & sizes */
     --gap-around: 40px;
     /* fonts */
     --font-h1: normal 64px/120% serif;
+    --font-main: "DEINE-SCHRIFT", Georgia, serif;
+    --font-small: normal 12px/1.2 var(--font-main);
+    --font-filter: normal 18px/1 var(--font-main);
+    body {
+        background-color: var(--color-black);
+        color: var(--color-white);
+        font-family: var(--font-main);
+    }
+    a { color: inherit; }
 }
 
 /* Styling of all available layout components. */
 [data-layout="header"] {
     padding: var(--gap-around);
-    background-color: var(--color-accent);
+    background-color: var(--color-black);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -41,7 +49,7 @@
 
 [data-layout="footer"] {
     padding: var(--gap-around);
-    background-color: var(--color-accent);
+    background-color: var(--color-black);
     .nav-container {
         .nav {
             list-style: none;
@@ -69,28 +77,71 @@
     position: relative;
     width: 100%;
 }
-[data-module="example"] {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    & > .image {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        inset: 0;
+
+[data-module="all_projects"] {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--gap-around);
+    padding: var(--gap-around);
+    & > .intro {
+        align-self: start;
+        position: sticky;
+        top: 40vh;
+        .title {
+            font: var(--font-h1);
+            margin-bottom: 24px;
+        }
+        .filters {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .filter {
+            font: var(--font-filter);
+            color: var(--color-white);
+            background: transparent;
+            border: 1px solid var(--color-white);
+            border-radius: 999px;
+            padding: 8px 16px;
+            cursor: pointer;
+            &.is-active {
+                background: var(--color-white);
+                color: var(--color-black);
+            }
+        }
     }
-    & > .title {
-        position: relative;
-        color: white;
-        font: var(--font-h1);
-        text-align: center;
+    & > .grid {
+        column-count: 2;
+        column-gap: var(--gap-around);
     }
 }
 
 /* Styling of all available teaser components. */
+[data-teaser="project"] {
+    display: block;
+    position: relative;
+    border: 1px solid var(--color-white);
+    padding: 22px 10px;
+    margin-bottom: var(--gap-around);
+    break-inside: avoid;
+    text-decoration: none;
+    color: var(--color-white);
+    &[hidden] { display: none; }
+    & > .image {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+    & > .label {
+        position: absolute;
+        font: var(--font-small);
+        .number { margin-right: 10px; }
+    }
+    & > .label-title { top: 5px; left: 8px; }
+    & > .label-type  { top: 5px; right: 8px; }
+    & > .label-date  { bottom: 5px; right: 8px; }
+}
 
 /* Styling of utility classes, can be added anywhere in the project. */
 
@@ -114,3 +165,11 @@
 
 /* BREAKPOINT: xxs */
 @media (max-width: 400px) {}
+
+@media (max-width: 768px) {
+    [data-module="all_projects"] {
+        grid-template-columns: 1fr;
+        & > .intro { position: static; }
+        & > .grid { column-count: 1; }
+    }
+}
