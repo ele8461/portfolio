@@ -10,7 +10,7 @@
     --gap-around: 40px;
     /* fonts */
     --font-h1: normal 64px/120% serif;
-    --font-main: "DEINE-SCHRIFT", Georgia, serif;
+    --font-main: Georgia, serif;
     --font-small: normal 12px/1.2 var(--font-main);
     --font-filter: normal 18px/1 var(--font-main);
     body {

@@ -3,7 +3,7 @@
 ?>
 
 <header data-layout="header">
-    <mark>elena fankhauser | writer & director</mark>
+    <mark>elena fankhauser | writer & filmmaker</mark>
     <nav class="nav-container">
         <ul class="nav">
             <?php foreach ($menu as $item) : ?>

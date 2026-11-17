@@ -138,3 +138,24 @@ function block_disabled_design_pages (): void {
 }
 
 add_action('admin_init', 'block_disabled_design_pages');
+
+// -> Styles und Scripts aus frontend/ einbinden
+add_action('wp_enqueue_scripts', function (): void {
+    $dir = get_template_directory();
+    $uri = get_template_directory_uri();
+
+    // filemtime als Version: Browser lädt automatisch neu, wenn die Datei geändert wurde
+    wp_enqueue_style(
+        'main',
+        $uri . '/frontend/styles/main.css',
+        [],
+        filemtime($dir . '/frontend/styles/main.css'),
+    );
+    wp_enqueue_script(
+        'main',
+        $uri . '/frontend/scripts/main.js',
+        [],
+        filemtime($dir . '/frontend/scripts/main.js'),
+        ['in_footer' => true, 'strategy' => 'defer'],
+    );
+});
