@@ -6,13 +6,6 @@
  * Diese globalen Funktionen sind nicht Wordpress-spezifisch.
  */
 
-// -> PHP-Daten in der Browser-Konsole anzeigen
-function js_log(mixed ...$content): void
-{
-    foreach ($content as $c) {
-        echo '<script>console.log(' . json_encode($c) . ')</script>';
-    }
-}
 
 // -> Details einer Mediendatei anhand der ID laden
 function get_media_by_id(int|string $id, string $size = 'm'): false|array
