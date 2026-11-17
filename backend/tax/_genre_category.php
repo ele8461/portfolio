@@ -7,7 +7,7 @@
        'labels' => [
          'name' => 'Genre',
          'singular_name' => 'Genre',
-         'menu_name' => 'Genre-Kategorie',
+         'menu_name' => 'Genre-Kategorien',
          'all_items' => 'Alle Genres',
          'edit_item' => 'Genre bearbeiten',
          'view_item' => 'Genre ansehen',
